@@ -13,4 +13,4 @@ install: pip install -U tox-travis
 script: tox
 
 env:
-  - JOB_SETTINGS="tests.settings"
+  - JOB_SETTINGS=tests.settings
