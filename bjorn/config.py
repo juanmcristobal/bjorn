@@ -19,7 +19,7 @@ class JobConfig():
         self.__dict__ = ref_settings.__dict__.copy()
 
     def init(self):
-        logging.config.dictConfig(self.LOGGING_CONFIG)
+        dictConfig(self.LOGGING_CONFIG)
         return self
 
     @staticmethod

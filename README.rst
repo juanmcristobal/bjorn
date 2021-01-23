@@ -20,22 +20,84 @@ bjorn
 
 
 
-It loads different configurations depending on the environment variable.
+The Bjorn module loads a configuration file for your python script.
+
+Installation
+------------
+
+To install bjorn, run this command in your terminal:
+
+.. code-block:: console
+
+    $ pip install bjorn
 
 
-* Free software: MIT license
-* Documentation: https://bjorn.readthedocs.io.
+
+The basics
+----------
+A settings file is just a Python module with module-level variables.
+Settings example:
+
+.. code-block:: python
+
+    import os
+
+    LOGGING_CONFIG = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
+        },
+        "handlers": {
+            "default": {
+                "level": "INFO",
+                "formatter": "standard",
+                "class": "logging.StreamHandler",
+            },
+            "file_handler": {
+                "level": "INFO",
+                "filename": "/tmp/mylogfile.log",
+                "class": "logging.FileHandler",
+                "formatter": "standard",
+            },
+        },
+        "loggers": {
+            "job": {
+                "handlers": ["default"],
+                "level": os.environ.get("LOGGER_LEVEL", "INFO"),
+                "propagate": True,
+            },
+        },
+    }
+
+    VALUE_TO_TEST = "A"
+
+Because a settings file is a Python module, the following apply:
+
+* It doesn’t allow for Python syntax errors.
+
+* It can assign settings dynamically using normal Python syntax. For example:
+
+.. code-block:: python
+
+    MY_SETTING = [str(i) for i in range(30)]
 
 
-Features
---------
+Designating the settings
+------------------------
 
-* TODO
+JOB_SETTINGS
+When you use Bjorn, you have to tell it which settings you’re using. Do this by using an environment variable, JOB_SETTINGS.
 
-Credits
--------
+The value of JOB_SETTINGS should be in Python path syntax, e.g. mysite.settings. Note that the settings module should be on the Python import search path.
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+Usage
+--------------
+Create a settings.py file in the root of the project. Then you can call it from your script using the following way.
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. code-block:: python
+
+    from bjorn.config import settings
+
+    if __name__ == '__main__':
+        print(settings.VALUE_TO_TEST)
