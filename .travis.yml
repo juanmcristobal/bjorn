@@ -2,9 +2,9 @@
 
 language: python
 python:
+  - 3.9
   - 3.8
   - 3.7
-  - 3.6
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
@@ -13,4 +13,6 @@ install: pip install -U tox-travis
 script: tox
 
 env:
-  - JOB_SETTINGS=tests.settings
+    global:
+      - JOB_SETTINGS=tests.settings
+      - CRYPTOGRAPHY_DONT_BUILD_RUST=1
