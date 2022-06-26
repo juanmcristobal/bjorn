@@ -39,8 +39,8 @@ jobs:
           pip install -e .
       - name: PyTest
         run: |
-          JOB_SETTINGS = tests.settings coverage run --source bjorn -m pytest
-          JOB_SETTINGS = tests.settings pytest tests/
+          JOB_SETTINGS=tests.settings coverage run --source bjorn -m pytest
+          JOB_SETTINGS=tests.settings pytest tests/
 
 
 
