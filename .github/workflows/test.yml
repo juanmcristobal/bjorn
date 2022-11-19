@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    env:
+        JOB_SETTINGS: tests.settings
     strategy:
       fail-fast: false
       matrix:
@@ -39,7 +41,7 @@ jobs:
           pip install -e .
       - name: PyTest
         run: |
-          coverage run --source ragnar -m pytest
+          coverage run --source bjorn -m pytest
           pytest tests/
       - name: Coverage
         env:
