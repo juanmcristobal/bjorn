@@ -16,11 +16,6 @@ bjorn
         :target: https://bjorn.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/juanmcristobal/bjorn/shield.svg
-     :target: https://pyup.io/repos/github/juanmcristobal/bjorn/
-     :alt: Updates
-
-
 
 The Bjorn module loads a configuration file for your python script.
 
