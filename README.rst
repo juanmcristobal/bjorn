@@ -6,13 +6,15 @@ bjorn
 .. image:: https://img.shields.io/pypi/v/bjorn.svg
         :target: https://pypi.python.org/pypi/bjorn
 
-.. image:: https://img.shields.io/travis/juanmcristobal/bjorn.svg
-        :target: https://travis-ci.com/juanmcristobal/bjorn
+.. image:: https://github.com/juanmcristobal/bjorn/actions/workflows/test.yml/badge.svg?branch=master
+    :target: (https://github.com/juanmcristobal/bjorn/actions/workflows/test.yml
+
+.. image:: https://coveralls.io/repos/github/juanmcristobal/bjorn/badge.svg?branch=master
+    :target: https://coveralls.io/github/juanmcristobal/bjorn?branch=master
 
 .. image:: https://readthedocs.org/projects/bjorn/badge/?version=latest
         :target: https://bjorn.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
 
 .. image:: https://pyup.io/repos/github/juanmcristobal/bjorn/shield.svg
      :target: https://pyup.io/repos/github/juanmcristobal/bjorn/

@@ -39,8 +39,26 @@ jobs:
           pip install -e .
       - name: PyTest
         run: |
-          JOB_SETTINGS=tests.settings coverage run --source bjorn -m pytest
-          JOB_SETTINGS=tests.settings pytest tests/
+          coverage run --source ragnar -m pytest
+          pytest tests/
+      - name: Coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+          COVERALLS_FLAG_NAME: ${{ matrix.python-version}}
+          COVERALLS_PARALLEL: true
+        if: (! contains(matrix.python-version, 'pypy'))
+        run: |
+          coverage report --show-missing --fail-under=100
+          pip install coveralls
+          coverage report --show-missing
+          coveralls --service=github
 
-
-
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
