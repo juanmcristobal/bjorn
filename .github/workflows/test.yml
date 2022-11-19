@@ -9,22 +9,23 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    env:
+        JOB_SETTINGS: tests.settings
     strategy:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
         python-version:
-          - "3.5"
-          - "3.6"
           - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
-          - "3.11.0-alpha - 3.11.0"
+          - "3.11"
           - "pypy-3.6"
           - "pypy-3.7"
           - "pypy-3.8"
           - "pypy-3.9"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -39,8 +40,26 @@ jobs:
           pip install -e .
       - name: PyTest
         run: |
-          JOB_SETTINGS=tests.settings coverage run --source bjorn -m pytest
-          JOB_SETTINGS=tests.settings pytest tests/
+          coverage run --source bjorn -m pytest
+          pytest tests/
+      - name: Coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+          COVERALLS_FLAG_NAME: ${{ matrix.python-version}}
+          COVERALLS_PARALLEL: true
+        if: (! contains(matrix.python-version, 'pypy'))
+        run: |
+          coverage report --show-missing --fail-under=100
+          pip install coveralls
+          coverage report --show-missing
+          coveralls --service=github
 
-
-
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
